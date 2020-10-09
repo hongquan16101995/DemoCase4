@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout::head"></head>
+
+<h3>Product</h3>
+<form>
+    Search by first name:
+    <input name="regex" type="text" th:value="${regex}"/>
+    <input type="submit" value="Search"/>
+</form>
+<br/>
+<a href="/user/view">View Information</a>
+<a href="/cart/cart">Into cart</a>
+
+<br/>
+<table id = "customers">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Avatar</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Buy</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.getName()}"></td>
+        <td th:text="${product.getPrice()}"></td>
+        <td><a th:href="@{/user/viewproduct/{id}(id=${product.getId()})}"><img th:src="@{'/content/' + ${product.getAvatar()}}" width="100" height="100" alt="Khongcoanh"/></a></td>
+        <td th:text="${product.getDescription()}"></td>
+        <td th:text="${product.typeProduct.getType()}"></td>
+        <td><a th:href="@{/cart/buy/{id}(id=${product.getId()})}">Buy</a></td>
+    </tr>
+    </tbody>
+</table>
+<div>
+    <a th:href="@{'/user'(page=${products.number - 1},regex=${regex})}" th:if="${products.hasPrevious()}">Previous</a>
+    <span th:text="${products.number + 1}"></span>/<span th:text="${products.totalPages}"></span>
+    <a th:href="@{'/user'(page=${products.number + 1},regex=${regex})}" th:if="${products.hasNext()}">Next</a>
+</div>
+<p>
+    <a th:href="@{/user}">
+        Back to menu
+    </a>
+</p>
+
+<footer th:replace="/layout :: footer"></footer>
+</body>
+</html>
