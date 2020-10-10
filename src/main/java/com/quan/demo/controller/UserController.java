@@ -1,11 +1,7 @@
 package com.quan.demo.controller;
 
-import com.quan.demo.models.Product;
-import com.quan.demo.models.TypeProduct;
-import com.quan.demo.models.UserInfo;
-import com.quan.demo.service.ProductService;
-import com.quan.demo.service.TypeProductService;
-import com.quan.demo.service.UserService;
+import com.quan.demo.models.*;
+import com.quan.demo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
@@ -36,6 +32,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private OrdersService ordersService;
+
+    @Autowired
+    private OrdersDetailService ordersDetailService;
 
     @Autowired
     private Environment environment;
@@ -118,5 +120,17 @@ public class UserController {
     public ModelAndView viewProduct(@PathVariable("id") Long id) {
         Product product = productService.findOne(id);
         return new ModelAndView("user/viewproduct", "product", product);
+    }
+
+    @GetMapping("/bill")
+    public ModelAndView viewBill(@SortDefault(sort = {"id"}) @PageableDefault(value = 5) Pageable pageable){
+        Page<Orders> orders = ordersService.findAll(pageable);
+        return new ModelAndView("user/vieworders", "orders", orders);
+    }
+
+    @GetMapping("/billdetail/{id}")
+    public ModelAndView viewBillDetail(@PathVariable("id") Long id){
+        Iterable<OrdersDetail> ordersDetails = ordersDetailService.findOrdersDetailById_Order(id);
+        return new ModelAndView("user/viewordersdetails", "ordersdetail", ordersDetails);
     }
 }

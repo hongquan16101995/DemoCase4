@@ -1,6 +1,8 @@
 package com.quan.demo.controller;
 
 import com.quan.demo.models.*;
+import com.quan.demo.service.OrdersDetailService;
+import com.quan.demo.service.OrdersService;
 import com.quan.demo.service.ProductService;
 import com.quan.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,12 @@ public class CartController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private OrdersService ordersService;
+
+    @Autowired
+    private OrdersDetailService ordersDetailService;
 
     @ModelAttribute("user")
     private UserInfo getPrincipal() {
@@ -108,20 +116,25 @@ public class CartController {
         return new ModelAndView("cart/cart");
     }
 
-//    @GetMapping("/save")
-//    public ModelAndView saveCart(HttpSession session){
-//        List<ItemsCart> carts = (List<ItemsCart>) session.getAttribute("cart");
-//        Orders orders = new Orders();
-//        orders.setDateCreated(new Date());
-//        ordersService.saveOrder(orders);
-//        for (int i = 0; i < carts.size(); i++){
-//            Product product = carts.get(i).getProduct();
-//            OrderDetails orderDetails = new OrderDetails(product.getId(), orders.getId(), carts.get(i).getQuantity(),
-//                    carts.get(i).getQuantity()*product.getPrice());
-//            orderDetailService.saveOrderDetail(orderDetails);
-//        }
-//        return new ModelAndView("user/viewinformation");
-//    }
+    @GetMapping("/save")
+    public ModelAndView saveCart(HttpSession session){
+        List<ItemsCart> carts = (List<ItemsCart>) session.getAttribute("cart");
+        Orders orders = new Orders();
+        orders.setAccount_user(getPrincipal().getAccount());
+        orders.setDateCreated(new Date());
+        ordersService.saveOrders(orders);
+        for (ItemsCart cart : carts) {
+            Product product = cart.getProduct();
+            OrdersDetail orderDetails = new OrdersDetail();
+            orderDetails.setIdorder(orders.getId());
+            orderDetails.setIdproduct(product.getId());
+            orderDetails.setQuantity(cart.getQuantity());
+            orderDetails.setPrice(cart.getQuantity() * product.getPrice());
+            ordersDetailService.saveOrdersDetail(orderDetails);
+        }
+        session.removeAttribute("cart");
+        return new ModelAndView("user/viewinformation");
+    }
 
     private int isExists(Long id, List<ItemsCart> carts) {
         for (int i = 0; i < carts.size(); i++) {

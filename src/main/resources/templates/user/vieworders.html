@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout::head"></head>
+
+<h3>Bill</h3>
+<p>
+    <a th:href="@{/user}">Back to home</a>
+</p>
+<table id = "customers">
+    <thead>
+    <tr>
+        <th>Mã hóa đơn</th>
+        <th>Ngày tạo</th>
+        <th>Xem chi tiết</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.getId()}"></td>
+        <td th:text="${order.getDateCreated()}"></td>
+        <td><a th:href="@{/user/billdetail/{id}(id=${order.getId()})}">View</a></td>
+    </tr>
+    </tbody>
+</table>
+<div>
+    <a th:href="@{'/user/bill'(page=${orders.number - 1})}" th:if="${orders.hasPrevious()}">Previous</a>
+    <span th:text="${orders.number + 1}"></span>/<span th:text="${orders.totalPages}"></span>
+    <a th:href="@{'/user/bill'(page=${orders.number + 1})}" th:if="${orders.hasNext()}">Next</a>
+</div>
+<p>
+    <a th:href="@{/user}">
+        Back to menu
+    </a>
+</p>
+
+<footer th:replace="/layout :: footer"></footer>
+</body>
+</html>

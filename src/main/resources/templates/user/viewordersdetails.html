@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout::head"></head>
+
+<h3>BillDetails</h3>
+<p>
+    <a th:href="@{/user/bill}">Back to home</a>
+</p>
+<table id = "customers">
+    <thead>
+    <tr>
+        <th>Sản phẩm</th>
+        <th>Số lượng</th>
+        <th>Tổng tiền</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${ordersdetail}">
+        <td th:text="${order.getIdproduct()}"></td>
+        <td th:text="${order.getQuantity()}"></td>
+        <td th:text="${order.getPrice()}"></td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    <a th:href="@{/user}">
+        Back to menu
+    </a>
+</p>
+
+<footer th:replace="/layout :: footer"></footer>
+</body>
+</html>
