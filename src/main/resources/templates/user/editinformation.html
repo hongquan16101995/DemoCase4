@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout :: head"></head>
+<body>
+<h3>Edit User Information</h3>
+<p>
+    <a th:href="@{/user/view}">
+        Back to user information
+    </a>
+</p>
+
+<div id="form">
+    <form th:action="@{/user/information}" th:object="${user} " method="POST" enctype="multipart/form-data">
+        <div>
+            <label>FullName</label>
+            <input type="text" th:field="*{name}"/>
+        </div>
+        <div>
+            <label>Age</label>
+            <input type="text" th:field="*{age}"/>
+        </div>
+        <div>
+            <label>Render</label>
+            <input type="text" th:field="*{render}"/>
+        </div>
+        <div>
+            <label>Phone</label>
+            <input type="text" th:field="*{phone}"/>
+        </div>
+        <div>
+            <label>Address</label>
+            <input type="text" th:field="*{address}"/>
+        </div>
+        <div>
+            <label>Avatar</label>
+            <img th:src="@{'/content/' + ${user.getAvatar()}}" width="100" height="100" alt="Khongcoanh"/>
+        </div>
+        <div>
+            <input type="file" th:field="*{image}"/>
+        </div>
+        <input type="submit" value="Edit your information">
+    </form>
+</div>
+<footer th:replace="/layout :: footer"></footer>
+</body>
+</html>

@@ -120,7 +120,7 @@ public class CartController {
     public ModelAndView saveCart(HttpSession session){
         List<ItemsCart> carts = (List<ItemsCart>) session.getAttribute("cart");
         Orders orders = new Orders();
-        orders.setAccount_user(getPrincipal().getAccount());
+        orders.setAccountuser(getPrincipal().getAccount());
         orders.setDateCreated(new Date());
         ordersService.saveOrders(orders);
         for (ItemsCart cart : carts) {
@@ -133,7 +133,7 @@ public class CartController {
             ordersDetailService.saveOrdersDetail(orderDetails);
         }
         session.removeAttribute("cart");
-        return new ModelAndView("user/viewinformation");
+        return new ModelAndView("user/information");
     }
 
     private int isExists(Long id, List<ItemsCart> carts) {

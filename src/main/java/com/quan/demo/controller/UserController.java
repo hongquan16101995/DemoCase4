@@ -74,12 +74,12 @@ public class UserController {
 
     @GetMapping("/view")
     public ModelAndView viewInformation() {
-        return new ModelAndView("user/viewinformation");
+        return new ModelAndView("user/information");
     }
 
     @GetMapping("/information")
     public ModelAndView informationUser() {
-        return new ModelAndView("user/information");
+        return new ModelAndView("user/editinformation");
     }
 
     @PostMapping("/information")
@@ -96,7 +96,7 @@ public class UserController {
             userInfo.setAvatar(image);
         }
         userService.saveUser(userInfo);
-        return new ModelAndView("user/viewinformation");
+        return new ModelAndView("user/information");
     }
 
     @GetMapping("/password")
@@ -113,7 +113,7 @@ public class UserController {
         } else
             userInfo.setPassword(newpass);
         userService.saveUser(userInfo);
-        return new ModelAndView("user/viewinformation");
+        return new ModelAndView("user/information");
     }
 
     @GetMapping("/viewproduct/{id}")
@@ -124,13 +124,13 @@ public class UserController {
 
     @GetMapping("/bill")
     public ModelAndView viewBill(@SortDefault(sort = {"id"}) @PageableDefault(value = 5) Pageable pageable){
-        Page<Orders> orders = ordersService.findAll(pageable);
-        return new ModelAndView("user/vieworders", "orders", orders);
+        Page<Orders> orders = ordersService.findByAccountUser(getPrincipal().getAccount(), pageable);
+        return new ModelAndView("user/allbilluser", "orders", orders);
     }
 
     @GetMapping("/billdetail/{id}")
     public ModelAndView viewBillDetail(@PathVariable("id") Long id){
         Iterable<OrdersDetail> ordersDetails = ordersDetailService.findOrdersDetailById_Order(id);
-        return new ModelAndView("user/viewordersdetails", "ordersdetail", ordersDetails);
+        return new ModelAndView("user/billuser", "ordersdetail", ordersDetails);
     }
 }

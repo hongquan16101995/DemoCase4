@@ -1,7 +1,11 @@
 package com.quan.demo.controller;
 
+import com.quan.demo.models.Orders;
+import com.quan.demo.models.OrdersDetail;
 import com.quan.demo.models.Product;
 import com.quan.demo.models.TypeProduct;
+import com.quan.demo.service.OrdersDetailService;
+import com.quan.demo.service.OrdersService;
 import com.quan.demo.service.ProductService;
 import com.quan.demo.service.TypeProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +33,12 @@ public class AdminController {
 
     @Autowired
     private TypeProductService typeProductService;
+
+    @Autowired
+    private OrdersService ordersService;
+
+    @Autowired
+    private OrdersDetailService ordersDetailService;
 
     @Autowired
     private Environment environment;
@@ -112,5 +122,17 @@ public class AdminController {
                                       @SortDefault(sort = {"id"}) @PageableDefault(value = 10) Pageable pageable) {
         productService.deleteProduct(id);
         return new ModelAndView("admin/home", "products", productService.findAll(pageable));
+    }
+
+    @GetMapping("/bill")
+    public ModelAndView viewBill(@SortDefault(sort = {"id"}) @PageableDefault(value = 5) Pageable pageable){
+        Page<Orders> orders = ordersService.findAll(pageable);
+        return new ModelAndView("admin/allbilladmin", "orders", orders);
+    }
+
+    @GetMapping("/billdetail/{id}")
+    public ModelAndView viewBillDetail(@PathVariable("id") Long id){
+        Iterable<OrdersDetail> ordersDetails = ordersDetailService.findOrdersDetailById_Order(id);
+        return new ModelAndView("admin/billadmin", "ordersdetail", ordersDetails);
     }
 }

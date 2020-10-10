@@ -8,4 +8,6 @@ public interface OrdersService {
     void saveOrders(Orders orders);
 
     Page<Orders> findAll(Pageable pageable);
+
+    Page<Orders> findByAccountUser(String account, Pageable pageable);
 }

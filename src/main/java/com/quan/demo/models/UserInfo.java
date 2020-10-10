@@ -29,6 +29,6 @@ public class UserInfo {
     private MultipartFile image;
 
     @ManyToOne
-    @JoinColumn(name = "id_role")
+    @JoinColumn(name = "idrole")
     private Roles roles;
 }

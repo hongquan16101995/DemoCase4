@@ -15,6 +15,6 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String account_user;
+    private String accountuser;
     private Date dateCreated;
 }

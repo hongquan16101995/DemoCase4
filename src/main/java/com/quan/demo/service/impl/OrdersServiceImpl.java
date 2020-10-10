@@ -22,4 +22,9 @@ public class OrdersServiceImpl implements OrdersService {
     public Page<Orders> findAll(Pageable pageable) {
         return ordersRepository.findAll(pageable);
     }
+
+    @Override
+    public Page<Orders> findByAccountUser(String account, Pageable pageable) {
+        return ordersRepository.findAllByAccountuser(account, pageable);
+    }
 }
