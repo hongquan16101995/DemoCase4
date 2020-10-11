@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class OrdersServiceImpl implements OrdersService {
     @Autowired
@@ -25,6 +27,6 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     public Page<Orders> findByAccountUser(String account, Pageable pageable) {
-        return ordersRepository.findAllByAccountuser(account, pageable);
+        return ordersRepository.findAllByAccountuserContaining(account, pageable);
     }
 }

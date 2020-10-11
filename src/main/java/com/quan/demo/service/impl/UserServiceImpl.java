@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,13 +27,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Page<UserInfo> findAllByName(String regex, Pageable pageable) {
-        return userRepository.findAllByNameContaining(regex, pageable);
+    public Page<UserInfo> findAllByRoles(Roles roles, Pageable pageable) {
+        return userRepository.findAllByRoles(roles, pageable);
     }
 
     @Override
-    public Page<UserInfo> findByDateCreated(Date date, Pageable pageable) {
-        return userRepository.findAllByDatecreated(date,pageable);
+    public Page<UserInfo> findAllByName(String regex, Roles roles, Pageable pageable) {
+        return userRepository.findAllByNameContainingAndRoles(regex, roles, pageable);
     }
 
     @Override

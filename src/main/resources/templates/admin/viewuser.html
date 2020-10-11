@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout::head"></head>
+
+<h3>List user</h3>
+
+<a th:href="@{/admin}">Back to home</a>
+
+<form>
+    Search by first name:
+    <input name="regex" type="text" th:value="${regex}"/>
+    <input type="submit" value="Search"/>
+</form>
+
+<br/>
+<table id = "customers">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Render</th>
+        <th>Address</th>
+        <th>Phone</th>
+        <th>Avatar</th>
+        <th>View bill of user</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.getName()}"></td>
+        <td th:text="${user.getAge()}"></td>
+        <td th:text="${user.getRender()}"></td>
+        <td th:text="${user.getAddress()}"></td>
+        <td th:text="${user.getPhone()}"></td>
+        <td><img th:src="@{'/content/' + ${user.getAvatar()}}" width="100" height="100" alt="Khongcoanh"/></td>
+        <td><a th:href="@{/admin/billuser/{name}(name=${user.getAccount()})}">All bill</a></td>
+    </tr>
+    </tbody>
+</table>
+<div>
+    <a th:href="@{'/admin'(page=${users.number - 1},regex=${regex})}" th:if="${users.hasPrevious()}">Previous</a>
+    <span th:text="${users.number + 1}"></span>/<span th:text="${users.totalPages}"></span>
+    <a th:href="@{'/admin'(page=${users.number + 1},regex=${regex})}" th:if="${users.hasNext()}">Next</a>
+</div>
+
+<footer th:replace="/layout :: footer"></footer>
+</body>
+</html>

@@ -150,14 +150,45 @@ public class AdminController {
     }
 
     @GetMapping("/bill")
-    public ModelAndView viewBill(@SortDefault(sort = {"id"}) @PageableDefault(value = 10) Pageable pageable) {
-        Page<Orders> orders = ordersService.findAll(pageable);
-        return new ModelAndView("admin/allbilladmin", "orders", orders);
+    public ModelAndView viewBill(@RequestParam("regex") Optional<String> regex,
+                                 @SortDefault(sort = {"id"}) @PageableDefault(value = 10) Pageable pageable) {
+        Page<Orders> orders;
+        ModelAndView modelAndView = new ModelAndView("admin/allbilladmin");
+        if (regex.isPresent()) {
+            orders = ordersService.findByAccountUser(regex.get(), pageable);
+        } else {
+            orders = ordersService.findAll(pageable);
+        }
+        modelAndView.addObject("regex", regex.orElse(""));
+        modelAndView.addObject("orders", orders);
+        return modelAndView;
     }
 
     @GetMapping("/billdetail/{id}")
     public ModelAndView viewBillDetail(@PathVariable("id") Long id) {
         Iterable<OrdersDetail> ordersDetails = ordersDetailService.findOrdersDetailById_Order(id);
         return new ModelAndView("admin/billadmin", "ordersdetail", ordersDetails);
+    }
+
+    @GetMapping("/listuser")
+    public ModelAndView viewListUser(@RequestParam("regex") Optional<String> regex,
+                                     @SortDefault(sort = {"id"}) @PageableDefault(value = 10) Pageable pageable){
+        Page<UserInfo> userInfos;
+        ModelAndView modelAndView = new ModelAndView("admin/viewuser");
+        if (regex.isPresent()) {
+            userInfos = userService.findAllByName(regex.get(), rolesService.getRoleUser(), pageable);
+        } else {
+            userInfos = userService.findAllByRoles(rolesService.getRoleUser(), pageable);
+        }
+        modelAndView.addObject("regex", regex.orElse(""));
+        modelAndView.addObject("users", userInfos);
+        return modelAndView;
+    }
+
+    @GetMapping("/billuser/{name}")
+    public ModelAndView viewBillUser(@PathVariable("name") String name,
+                                     @SortDefault(sort = {"id"}) @PageableDefault(value = 10) Pageable pageable) {
+        Page<Orders> orders = ordersService.findByAccountUser(name, pageable);
+        return new ModelAndView("admin/allbilladmin", "orders", orders);
     }
 }

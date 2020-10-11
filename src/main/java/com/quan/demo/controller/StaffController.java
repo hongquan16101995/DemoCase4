@@ -10,10 +10,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Date;
 
 @Controller
 @RequestMapping("/staff")
@@ -31,7 +31,7 @@ public class StaffController {
     }
 
     @GetMapping("/bill")
-    public ModelAndView viewBill(@SortDefault(sort = {"id"}) @PageableDefault(value = 5) Pageable pageable){
+    public ModelAndView viewBill(@SortDefault(sort = {"id"}) @PageableDefault(value = 15) Pageable pageable){
         Page<Orders> orders = ordersService.findAll(pageable);
         return new ModelAndView("staff/allbillstaff", "orders", orders);
     }
