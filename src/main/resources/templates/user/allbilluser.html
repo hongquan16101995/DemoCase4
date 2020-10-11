@@ -11,6 +11,7 @@
     <tr>
         <th>Mã hóa đơn</th>
         <th>Ngày tạo</th>
+        <th>Tổng tiền</th>
         <th>Xem chi tiết</th>
     </tr>
     </thead>
@@ -18,6 +19,7 @@
     <tr th:each="order : ${orders}">
         <td th:text="${order.getId()}"></td>
         <td th:text="${order.getDateCreated()}"></td>
+        <td th:text="${order.getTotalPrice()}"></td>
         <td><a th:href="@{/user/billdetail/{id}(id=${order.getId()})}">View</a></td>
     </tr>
     </tbody>

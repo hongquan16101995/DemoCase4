@@ -17,4 +17,5 @@ public class Orders {
 
     private String accountuser;
     private Date dateCreated;
+    private double totalPrice;
 }

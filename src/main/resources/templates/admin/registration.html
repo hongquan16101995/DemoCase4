@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout :: head"></head>
+<body>
+<h3>Add Staff Information</h3>
+<p>
+    <a th:href="@{/admin}">
+        Back to home
+    </a>
+</p>
+<div id="form">
+    <form th:action="@{/admin/createstaff}" th:object="${user} " method="POST" enctype="multipart/form-data">
+        <div>
+            <label>UserName</label>
+            <input type="text" th:field="*{account}"/>
+        </div>
+        <div>
+            <label>Password</label>
+            <input type="password" th:field="*{password}"/>
+        </div>
+        <div>
+            <label>FullName</label>
+            <input type="text" th:field="*{name}"/>
+        </div>
+        <div>
+            <label>Age</label>
+            <input type="text" th:field="*{age}"/>
+        </div>
+        <div>
+            <label>Render</label>
+            <input type="text" th:field="*{render}"/>
+        </div>
+        <div>
+            <label>Phone</label>
+            <input type="text" th:field="*{phone}"/>
+        </div>
+        <div>
+            <label>Address</label>
+            <input type="text" th:field="*{address}"/>
+        </div>
+        <div>
+            <label>Avatar</label>
+            <input type="file" th:field="*{image}"/>
+        </div>
+        <input type="submit" value="Create new staff">
+    </form>
+</div>
+<footer th:replace="/layout :: footer"></footer>
+</body>
+</html>

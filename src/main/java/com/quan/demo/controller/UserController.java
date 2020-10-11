@@ -22,6 +22,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Controller
+@CrossOrigin("*")
 @RequestMapping("/user")
 public class UserController {
     @Autowired

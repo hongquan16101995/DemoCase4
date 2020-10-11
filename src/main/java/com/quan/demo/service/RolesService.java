@@ -6,4 +6,6 @@ public interface RolesService {
     Iterable<Roles> findAll();
 
     Roles getRoleUser();
+
+    Roles getRoleStaff();
 }

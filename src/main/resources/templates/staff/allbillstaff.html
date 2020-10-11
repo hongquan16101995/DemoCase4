@@ -4,7 +4,7 @@
 
 <h3>Bill</h3>
 <p>
-    <a th:href="@{/admin}">Back to home</a>
+    <a th:href="@{/staff}">Back to home</a>
 </p>
 <table id = "customers">
     <thead>
@@ -22,14 +22,14 @@
         <td th:text="${order.getAccountuser()}"></td>
         <td th:text="${order.getDateCreated()}"></td>
         <td th:text="${order.getTotalPrice()}"></td>
-        <td><a th:href="@{/admin/billdetail/{id}(id=${order.getId()})}">View</a></td>
+        <td><a th:href="@{/staff/billdetail/{id}(id=${order.getId()})}">View</a></td>
     </tr>
     </tbody>
 </table>
 <div>
-    <a th:href="@{'/admin/bill'(page=${orders.number - 1})}" th:if="${orders.hasPrevious()}">Previous</a>
+    <a th:href="@{'/staff/bill'(page=${orders.number - 1})}" th:if="${orders.hasPrevious()}">Previous</a>
     <span th:text="${orders.number + 1}"></span>/<span th:text="${orders.totalPages}"></span>
-    <a th:href="@{'/admin/bill'(page=${orders.number + 1})}" th:if="${orders.hasNext()}">Next</a>
+    <a th:href="@{'/staff/bill'(page=${orders.number + 1})}" th:if="${orders.hasNext()}">Next</a>
 </div>
 
 <footer th:replace="/layout :: footer"></footer>

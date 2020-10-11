@@ -12,6 +12,8 @@
 <a href="/user/view">View Information</a> |
 <a href="/cart/cart">Into cart</a>
 
+<div id=alert></div>
+
 <br/>
 <table id = "customers">
     <thead>
@@ -31,7 +33,7 @@
         <td><a th:href="@{/user/viewproduct/{id}(id=${product.getId()})}"><img th:src="@{'/content/' + ${product.getAvatar()}}" width="100" height="100" alt="Khongcoanh"/></a></td>
         <td th:text="${product.getDescription()}"></td>
         <td th:text="${product.typeProduct.getType()}"></td>
-        <td><a th:href="@{/cart/buy/{id}(id=${product.getId()})}">Buy</a></td>
+        <td><button th:onclick="'$(this).click(buy(\'' + ${product.getId()} +'\'))'">Buy</button></td>
     </tr>
     </tbody>
 </table>

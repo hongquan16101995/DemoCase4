@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/layout::head"></head>
 <body>
+
 <h1>Hello everybody</h1>
 <a href="/login">Login</a> | <a href="/registration">Registation</a>
 
@@ -13,7 +14,7 @@
 </form>
 <br/>
 <br/>
-<table id = "customers">
+<table id="customers">
     <thead>
     <tr>
         <th>Name</th>
@@ -38,7 +39,6 @@
     <span th:text="${products.number + 1}"></span>/<span th:text="${products.totalPages}"></span>
     <a th:href="@{'/'(page=${products.number + 1},regex=${regex})}" th:if="${products.hasNext()}">Next</a>
 </div>
-
 <footer th:replace="/layout :: footer"></footer>
 </body>
 </html>

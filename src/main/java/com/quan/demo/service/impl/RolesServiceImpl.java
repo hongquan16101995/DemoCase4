@@ -20,4 +20,9 @@ public class RolesServiceImpl implements RolesService {
     public Roles getRoleUser() {
         return rolesRepository.findById(1L).orElse(null);
     }
+
+    @Override
+    public Roles getRoleStaff() {
+        return rolesRepository.findById(3L).orElse(null);
+    }
 }

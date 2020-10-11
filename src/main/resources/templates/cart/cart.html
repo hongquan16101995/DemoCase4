@@ -1,66 +1,50 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/layout::head">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            jQuery("#btn").click(function(){
-                var data_test = $('#quality').val();;
-                $.ajax({
-                    url: 'cart/update',
-                    type: 'POST',
-                    data: 'string=' + data_test,
-                    success: function (data) {
-                        setTimeout(function(){
-                            $('#demo-ajax').html(data);
-                        },3000);
-                    },
-                    error: function (e) {
-                        console.log(e.message);
-                    }
-                });
-            });
-            event.preventDefault();
-        });
-    </script>
-</head>
+<head th:replace="/layout::head"></head>
 
 <h3>Cart</h3>
-<div id="demo-ajax"></div>
-<!--<form th:action="/cart/update" method="post">-->
-    <table id="customers">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Avatar</th>
-            <th>Description</th>
-            <th>Type</th>
-            <th>Quality</th>
-            <th>Total</th>
-            <th>Xóa</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="item : ${session.cart}">
-            <td id="quality" th:text="${item.product.getName()}"></td>
-            <td th:text="${item.product.getPrice()}"></td>
-            <td><img th:src="@{'/content/' + ${item.product.getAvatar()}}" width="100" height="100" alt="Khongcoanh"/></td>
-            <td th:text="${item.product.getDescription()}"></td>
-            <td th:text="${item.product.typeProduct.getType()}"></td>
-            <td><button id="btn">Bớt</button></td>
-            <td th:text="${item.quantity}"></td>
-            <td th:text="${item.quantity*item.product.getPrice()}"></td>
-            <td><a th:href="@{/cart/remove/{id}(id=${item.product.getId()})}">Xóa</a></td>
-        </tr>
-        <tr>
-            <td colspan="7">Total: </td>
-            <td th:text="${total}"></td>
-        </tr>
-        </tbody>
-    </table>
-<!--</form>-->
-<a href="/cart/clear">Hủy</a> | <a href="/cart/save">Thanh toán</a>
+
+<table id="customers">
+    <thead id="content">
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Avatar</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th colspan="3" style="text-align: center">Quality</th>
+        <th>Total</th>
+        <th>Xóa</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${session.cart}">
+        <td th:id="name" th:text="${item.product.getName()}"></td>
+        <td th:text="${item.product.getPrice()}"></td>
+        <td><img th:src="@{'/content/' + ${item.product.getAvatar()}}" width="100" height="100" alt="Khongcoanh"/></td>
+        <td th:text="${item.product.getDescription()}"></td>
+        <td th:text="${item.product.typeProduct.getType()}"></td>
+        <!--<td><a role="button" th:href="@{/cart/update/{id}(id=${item.product.getId()},name='down')}">Bớt</a></td>-->
+        <td>
+            <button th:onclick="'$(this).click(update(\'' + ${item.product.getId()} +'\',\''+ 'down' + '\'))'">Down
+            </button>
+        </td>
+        <td id="quality" th:text="${item.quantity}"></td>
+        <td>
+            <button th:onclick="'$(this).click(update(\'' + ${item.product.getId()} +'\',\''+ 'up' + '\'))'">Up</button>
+        </td>
+        <!--<td><a role="button" th:href="@{/cart/update/{id}(id=${item.product.getId()},name='up')}">Thêm</a></td>-->
+        <td id="price" th:text="${item.quantity*item.product.getPrice()}"></td>
+        <td><a th:href="@{/cart/remove/{id}(id=${item.product.getId()})}">Xóa</a></td>
+    </tr>
+    <tr>
+        <td colspan="9">Total:</td>
+        <td id="total" th:text="${total}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<a href="/cart/clear">Hủy đơn hàng</a> | <a href="/cart/save">Thanh toán đơn hàng</a> |
 <a href="/user">Continue Buy</a>
 <script>
 
